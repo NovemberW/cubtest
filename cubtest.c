@@ -1,8 +1,12 @@
-#include "cubtest.h"
+#ifndef CUBTEST_H_
+#define CUBTEST_H_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include "boarddef.h"
+#include "boarddefs/boarddef.h"
+#include "cubtest.h"
+
 
 /**
  ******************************************************************************
@@ -11,14 +15,8 @@
  ******************************************************************************
  */
 
-#ifdef onBoard
-#include <FreeRTOS.h>
-#define _malloc pvPortMalloc
-#define _free pvPortFree
-#else
-#define _malloc malloc
-#define _free free
-#endif
+
+
 
 /*
  *
@@ -26,8 +24,6 @@
  * you may need this. Of course stolen from stackoverflow.
  *
  */
-// Yet, another good itoa implementation
-// returns: the length of the number string
 int itoaB(int value, char *sp, int radix) {
 	char tmp[16]; // be careful with the length of the buffer
 	char *tp = tmp;
@@ -478,8 +474,8 @@ _bool noteMe(int _bool_, char * message, handle *handle_) {
 }
 
 /**
- * @brief Frees all the memory used for the handle, its list and the associated strings 
- * @param handle_ the handle that will be deleted 
+ * @brief Frees all the memory used for the handle, its list and the associated strings
+ * @param handle_ the handle that will be deleted
  * @return None
  */
 void deleteHandle(handle* handle_) {
@@ -487,7 +483,7 @@ void deleteHandle(handle* handle_) {
 	reportNode* help;
 
 	while (pivot != 0) {
-		free(pivot->message);
+		_free(pivot->message);
 		help = pivot;
 		pivot = pivot->next;
 		_free(help);
@@ -497,3 +493,4 @@ void deleteHandle(handle* handle_) {
 	_free(handle_->report);
 	_free(handle_);
 }
+#endif

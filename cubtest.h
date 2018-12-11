@@ -9,7 +9,7 @@ typedef struct reportNode_{
 	char* filename;//not in use yet
 	int linenumber;//not in use yet
 
-}reportNode ;
+}reportNode;
 //reportNode
 
 typedef struct{
