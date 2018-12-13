@@ -3,6 +3,8 @@
 
 #define _bool int
 
+typedef void (*printFunc)(char* string);
+
 typedef struct reportNode_{
 	struct reportNode_* next;
 	char* message;
@@ -15,7 +17,7 @@ typedef struct{
 	int fails;
 	int messages;
 	reportNode* root;
-
+	printFunc pF;
 	char* header;
 	char* report;
 
@@ -26,7 +28,7 @@ int itoaB(int value, char *sp, int radix);
 
 reportNode* getNewNode(char* message);
 
-handle* getEmptyHandle();
+handle* getEmptyHandle(printFunc pF);
 
 char* strcopyto(char* dest, char* src, int begin, int length);
 

@@ -1,13 +1,3 @@
-#ifndef CUBTEST_H_
-#define CUBTEST_H_
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "boarddefBridge.h"
-#include "cubtest.h"
-
-
 /**
  ******************************************************************************
  * @file           : cubtest.c
@@ -15,8 +5,14 @@
  ******************************************************************************
  */
 
+#ifndef CUBTEST_H_
+#define CUBTEST_H_
 
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "../boarddefBridge.h"
+#include "cubtest.h"
 
 /*
  *
@@ -78,15 +74,8 @@ reportNode* getNewNode(char* message) {
  */
 void appendToList(handle* handle_, char* message) {
 	handle_->messages++;
-	if (handle_->root == 0) { //root case
-		handle_->root = getNewNode(message);
-	} else {
-		reportNode* pivot = handle_->root;
-		while (pivot->next != 0) { //iterating to the last element
-			pivot = pivot->next;
-		}
-		pivot->next = getNewNode(message); //appending to that ende
-	}
+	handle_->pF(message);
+	handle_->pF("\n");
 }
 
 /**
@@ -94,13 +83,13 @@ void appendToList(handle* handle_, char* message) {
  * @param none
  * @return that pointer
  */
-handle* getEmptyHandle() {
+handle* getEmptyHandle(printFunc pF) {
 	handle *handle_ = (handle*) _malloc(sizeof(handle));
 	handle_->fails = 0;
 	handle_->total = 0;
 	handle_->messages = 0;
 	handle_->root = 0;
-
+	handle_->pF = pF;
 	return handle_;
 }
 
@@ -213,7 +202,7 @@ void appendNoteAndInt(char* note, int i, handle* handle_) {
  */
 void appendNoteAndMessage(char* note, char* message, handle* handle_) {
 	appendToList(handle_,
-			strncombine(note, message, strlen(note), strlen(message)+1));
+			strncombine(note, message, strlen(note), strlen(message) + 1));
 }
 
 /**
@@ -223,22 +212,14 @@ void appendNoteAndMessage(char* note, char* message, handle* handle_) {
  * @return nothing
  */
 void generateHeader(handle* handle_) {
-	char A[] = "Testlauf:";
-	char *akkumulator = _malloc(sizeof(char) * 35);
+	char *startText = "Testlauf:";
 
-	int start_length = (int) strlen(A);
-
-	strcpy(akkumulator, A); // =^= strcopyto(F,A,0,sizeof(A));
-
-	//__TIME__ & __DATE__ are evanluated by the compiler and therefor the time and date
-	//when the code is compiled
-
-	strcopyto(akkumulator, " ", start_length, sizeof(" "));
-	strcopyto(akkumulator, __DATE__, start_length + 1, sizeof(__DATE__));
-	strcopyto(akkumulator, " ", start_length + sizeof(__DATE__), sizeof(" "));
-	strcopyto(akkumulator, __TIME__, start_length + 1 + sizeof(__DATE__),
-			sizeof(__TIME__));
-	handle_->header = akkumulator;
+	handle_->pF(startText);
+	handle_->pF(" ");
+	handle_->pF(__DATE__);
+	handle_->pF(" ");
+	handle_->pF(__TIME__);
+	handle_->pF("\n");
 }
 
 /**
@@ -259,36 +240,25 @@ void generateReport(handle *handle_) {
 
 	int writeAkku = 0;
 
-	char* blank = " \n";
-	char A[] = "Report:";
-	char* successMessage = "Bestanden: ";
-	char* failMessage = "Fehlgeschlagen: ";
-	char* totalMessage = "Total: ";
-
-	int start_length = (int) strlen(A);
-
-	strcpy(akkumulator, A); // =^= strcopyto(F,A,0,sizeof(A));
-	writeAkku += start_length;
-	strcopyto(akkumulator, blank, writeAkku, strlen(blank));
-	writeAkku += strlen(blank);
-	strcopyto(akkumulator, successMessage, writeAkku, strlen(successMessage));
-	writeAkku += strlen(successMessage);
-	strcopyto(akkumulator, success, writeAkku, strlen(success));
-	writeAkku += strlen(success);
-	strcopyto(akkumulator, blank, writeAkku, strlen(blank));
-	writeAkku += strlen(blank);
-	strcopyto(akkumulator, failMessage, writeAkku, strlen(failMessage));
-	writeAkku += strlen(failMessage);
-	strcopyto(akkumulator, fails, writeAkku, strlen(fails));
-	writeAkku += strlen(fails);
-	strcopyto(akkumulator, blank, writeAkku, strlen(blank));
-	writeAkku += strlen(blank);
-	strcopyto(akkumulator, totalMessage, writeAkku, strlen(totalMessage));
-	writeAkku += strlen(totalMessage);
-	strcopyto(akkumulator, total, writeAkku, strlen(total));
-	writeAkku += strlen(total);
-	akkumulator[writeAkku] = 0;
-	handle_->report = akkumulator;
+	char* blank = " ";
+	char *report = "Report:";
+	char* successMessage = "Bestanden:";
+	char* failMessage = "Fehlgeschlagen:";
+	char* totalMessage = "Total:";
+	handle_->pF(report);
+	handle_->pF(blank);
+	handle_->pF(successMessage);
+	handle_->pF(blank);
+	handle_->pF(success);
+	handle_->pF(blank);
+	handle_->pF(failMessage);
+	handle_->pF(blank);
+	handle_->pF(fails);
+	handle_->pF(blank);
+	handle_->pF(totalMessage);
+	handle_->pF(blank);
+	handle_->pF(total);
+	handle_->pF("\n");
 }
 
 /**
@@ -434,7 +404,7 @@ _bool assert_IntArrayEqual(int* actual, int* expected, int length,
 
 	return noteMe(statusAkku,
 			strncombine(missmatch, converted, strlen(missmatch),
-					strlen(converted)+1), handle_);
+					strlen(converted) + 1), handle_);
 
 }
 
@@ -462,12 +432,17 @@ _bool assert_FloatNotEqual(float actual, float expected, float delta,
  */
 _bool noteMe(int _bool_, char * message, handle *handle_) {
 	handle_->total++;
-
-	if (!_bool_) {
+	if (!_bool_){
 		handle_->fails++;
-		appendToList(handle_, message);
+		handle_->pF(message);
+		handle_->pF("\n");
 	}
-
+	/*
+	 if (!_bool_) {
+	 handle_->fails++;
+	 appendToList(handle_, message);
+	 }
+	 */
 	return !_bool_;
 }
 
