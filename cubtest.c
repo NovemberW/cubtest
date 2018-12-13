@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "boarddefs/boarddef.h"
+#include "boarddefBridge.h"
 #include "cubtest.h"
 
 
