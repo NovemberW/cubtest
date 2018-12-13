@@ -34,7 +34,7 @@ char* strcopyto(char* dest, char* src, int begin, int length);
 
 char* strncombine(char* a, char* b, int lengt_a, int length_b);
 
-char* appendNumbers(char* dest, int a, int b, int begin);
+char* generateActualExpectedString(char* dest, int a, int b, int begin);
 
 void generateHeader(handle* handle_);
 

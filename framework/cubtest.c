@@ -130,7 +130,7 @@ char* strncombine(char* a, char* b, int length_a, int length_b) {
  * @param begin
  * @return that pointer
  */
-char* appendNumbers(char* src, int a, int b, int begin) {
+char* generateActualExpectedString(char* src, int a, int b, int begin) {
 	char* actual = "Actual: ";
 	char* expected = "Expected: ";
 	char* akku = _malloc(
@@ -289,7 +289,7 @@ char** getMessages(handle* handle_) {
 _bool assert_IntEqual(int actual, int expected, char *message, handle *handle_) {
 
 	return noteMe(actual == expected,
-			appendNumbers(message, actual, expected, strlen(message)), handle_);
+			generateActualExpectedString(message, actual, expected, strlen(message)), handle_);
 }
 /**
  * @brief asserts that given integer actual is not equal to given integer expected, if that is not the case the given message is logged to given handle
@@ -300,7 +300,7 @@ _bool assert_IntEqual(int actual, int expected, char *message, handle *handle_) 
 _bool assert_IntNotEqual(int actual, int expected, char *message,
 		handle* handle_) {
 	return noteMe(actual != expected,
-			appendNumbers(message, actual, expected, strlen(message)), handle_);
+			generateActualExpectedString(message, actual, expected, strlen(message)), handle_);
 }
 
 /**
@@ -312,7 +312,7 @@ _bool assert_IntNotEqual(int actual, int expected, char *message,
 _bool assert_IntGreater(int actual, int expected, char *message,
 		handle* handle_) {
 	return noteMe(actual > expected,
-			appendNumbers(message, actual, expected, strlen(message)), handle_);
+			generateActualExpectedString(message, actual, expected, strlen(message)), handle_);
 }
 
 /**
@@ -324,7 +324,7 @@ _bool assert_IntGreater(int actual, int expected, char *message,
 _bool assert_IntGreaterOrEqual(int actual, int expected, char *message,
 		handle* handle_) {
 	return noteMe(actual >= expected,
-			appendNumbers(message, actual, expected, strlen(message)), handle_);
+			generateActualExpectedString(message, actual, expected, strlen(message)), handle_);
 }
 
 /**
@@ -336,7 +336,7 @@ _bool assert_IntGreaterOrEqual(int actual, int expected, char *message,
 _bool assert_IntSmaller(int actual, int expected, char *message,
 		handle* handle_) {
 	return noteMe(actual < expected,
-			appendNumbers(message, actual, expected, strlen(message)), handle_);
+			generateActualExpectedString(message, actual, expected, strlen(message)), handle_);
 }
 
 /**
@@ -348,7 +348,7 @@ _bool assert_IntSmaller(int actual, int expected, char *message,
 _bool assert_IntSmallerOrEqual(int actual, int expected, char *message,
 		handle* handle_) {
 	return noteMe(actual <= expected,
-			appendNumbers(message, actual, expected, strlen(message)), handle_);
+			generateActualExpectedString(message, actual, expected, strlen(message)), handle_);
 }
 
 /**
@@ -361,7 +361,7 @@ _bool assert_IntSmallerOrEqual(int actual, int expected, char *message,
 _bool assert_IntInRange(int actual, int lowerBound, int higherBound,
 		char *message, handle* handle_) {
 	return noteMe(lowerBound <= actual && actual <= higherBound,
-			appendNumbers(message, -1, actual, strlen(message)), handle_);
+			generateActualExpectedString(message, -1, actual, strlen(message)), handle_);
 }
 
 /**
@@ -374,7 +374,7 @@ _bool assert_IntInRange(int actual, int lowerBound, int higherBound,
 _bool assert_IntNotInRange(int actual, int lowerBound, int higherBound,
 		char *message, handle* handle_) {
 	return noteMe(lowerBound > actual || actual > higherBound,
-			appendNumbers(message, -1, actual, strlen(message)), handle_);
+			generateActualExpectedString(message, -1, actual, strlen(message)), handle_);
 }
 
 /**
@@ -396,7 +396,7 @@ _bool assert_IntArrayEqual(int* actual, int* expected, int length,
 		statusAkku &= (actual[i] == expected[i]);
 	}
 
-	char* missmatch = appendNumbers(message, actual[i - 1], expected[i - 1],
+	char* missmatch = generateActualExpectedString(message, actual[i - 1], expected[i - 1],
 			strlen(message));
 
 	char* converted = (char*) _malloc(12);
