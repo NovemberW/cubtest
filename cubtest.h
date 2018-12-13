@@ -6,8 +6,6 @@
 typedef struct reportNode_{
 	struct reportNode_* next;
 	char* message;
-	char* filename;//not in use yet
-	int linenumber;//not in use yet
 
 }reportNode;
 //reportNode

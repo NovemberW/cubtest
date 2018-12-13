@@ -67,8 +67,6 @@ reportNode* getNewNode(char* message) {
 	reportNode* node = (reportNode*) _malloc(sizeof(reportNode));
 	node->next = 0;
 	node->message = message;
-	node->filename = ""; //not in use yet
-	node->linenumber = -1; // not in use yet
 	return node;
 }
 
