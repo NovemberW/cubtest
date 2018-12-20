@@ -55,18 +55,6 @@ int itoaB(int value, char *sp, int radix) {
 }
 
 /**
- * @brief creates a new reportNode to to be enqued
- * @param none
- * @return that pointer
- */
-reportNode* getNewNode(char* message) {
-	reportNode* node = (reportNode*) _malloc(sizeof(reportNode));
-	node->next = 0;
-	node->message = message;
-	return node;
-}
-
-/**
  * @brief Appends the given message to the internal list of given handle
  * @param handle_ the handle to be used
  * @param message the message to be added
@@ -88,7 +76,6 @@ handle* getEmptyHandle(printFunc pF) {
 	handle_->fails = 0;
 	handle_->total = 0;
 	handle_->messages = 0;
-	handle_->root = 0;
 	handle_->pF = pF;
 	return handle_;
 }
@@ -188,23 +175,37 @@ void generateNoteAndIntString(char* buffer, char* message, int a) {
 
 	pos += strlen(message);
 
-	strcopyto(buffer, " ", pos, strlen(" "));
-	pos += strlen(" ");
+	strcopyto(buffer, ": ", pos, strlen(": "));
+	pos += strlen(": ");
 
-	itoaB(a, intBuffer, 10);
-	strcopyto(buffer, intBuffer, pos, strlen(intBuffer));
-	pos += strlen(intBuffer);
+	int help = itoaB(a, intBuffer, 10);
+	strcopyto(buffer, intBuffer, pos, help);
+	pos += help;
 
 	buffer[pos - 1] = 0;
 
 }
 
+void generateNoteString(char* buffer, char* message) {
+	strcopyto(buffer, message, 0, strlen(message));
+	buffer[strlen(message)] = 0;
+
+}
+
+void generateNoteAndMessageString(char* buffer,char* note, char* message) {
+	strcopyto(buffer, note, 0, strlen(note));
+	strcopyto(buffer, ": ", strlen(note), strlen(": "));
+	strcopyto(buffer, message, strlen(note) + 2, strlen(message));
+	buffer[strlen(note) + strlen(message) + 2] = 0;
+}
+
 void generateIntRangeString(char* buffer, int actual, int lowerBound,
 		int upperBound, char* message) {
 	char* start = "Range ";
-	char* actualS = "Actual:";
+	char* actualS = "Actual: ";
 
 	char intBuffer[12];
+	int help = 0;
 
 	int pos = 0;
 
@@ -215,16 +216,16 @@ void generateIntRangeString(char* buffer, int actual, int lowerBound,
 	strcopyto(buffer, " [", pos, strlen(" ["));
 	pos += strlen(" [");
 
-	itoaB(lowerBound, intBuffer, 10);
-	strcopyto(buffer, intBuffer, pos, strlen(intBuffer));
-	pos += strlen(intBuffer);
+	help = itoaB(lowerBound, intBuffer, 10);
+	strcopyto(buffer, intBuffer, pos, help);
+	pos += help;
 
 	strcopyto(buffer, ",", pos, strlen(","));
 	pos += strlen(",");
 
-	itoaB(upperBound, intBuffer, 10);
-	strcopyto(buffer, intBuffer, pos, strlen(intBuffer));
-	pos += strlen(intBuffer);
+	help = itoaB(upperBound, intBuffer, 10);
+	strcopyto(buffer, intBuffer, pos, help);
+	pos += help;
 
 	strcopyto(buffer, "]", pos, strlen("]"));
 	pos += strlen("]");
@@ -235,11 +236,57 @@ void generateIntRangeString(char* buffer, int actual, int lowerBound,
 	strcopyto(buffer, actualS, pos, strlen(actualS));
 	pos += strlen(actualS);
 
-	itoaB(actual, intBuffer, 10);
-	strcopyto(buffer, intBuffer, pos, strlen(intBuffer));
-	pos += strlen(intBuffer);
+	help = itoaB(actual, intBuffer, 10);
+	strcopyto(buffer, intBuffer, pos, help);
+	pos += help;
 
 	buffer[pos] = 0;
+}
+
+void generateIntArrayEqualsString(char* buffer, int* a, int* b, int length,
+		int index, char* message) {
+	char* notEqual = "Arrays not equal at: ";
+	char* values = "Values: ";
+
+	char intBuffer[12];
+
+	if (index != -1) {
+		int pos = 0;
+
+		strcopyto(buffer, notEqual, 0, strlen(notEqual));
+		pos += strlen(notEqual);
+
+		strcopyto(buffer, " ", pos, strlen(" "));
+		pos += strlen(" ");
+
+		int help = itoaB(index, intBuffer, 10);
+		strcopyto(buffer, intBuffer, pos, help);
+		pos += help;
+
+		strcopyto(buffer, "=> ", pos, strlen("=> "));
+		pos += strlen("=> ");
+
+		help = itoaB(a[index], intBuffer, 10);
+		strcopyto(buffer, intBuffer, pos, help);
+		pos += help;
+
+		strcopyto(buffer, "=|=", pos, strlen("=|="));
+		pos += strlen("=|=");
+
+		help = itoaB(b[index], intBuffer, 10);
+		strcopyto(buffer, intBuffer, pos, help);
+		pos += help;
+
+		strcopyto(buffer, " :", pos, strlen(" :"));
+		pos += strlen(" :");
+
+		strcopyto(buffer, message, pos, strlen(message));
+		pos += strlen(message);
+
+		buffer[pos - 1] = 0;
+
+	} else
+		buffer[0] = 0;
 }
 /**
  * @brief Appends a note to the list of errormessages in given handle. The message is not counted as failed
@@ -249,7 +296,9 @@ void generateIntRangeString(char* buffer, int actual, int lowerBound,
  * @return nothing
  */
 void appendNote(char* note, handle* handle_) {
-	appendToList(handle_, strncombine(note, "", strlen(note), 0));
+	char buffer[100];
+	generateNoteString(buffer, note);
+	appendToList(handle_, buffer);
 }
 
 /**
@@ -277,8 +326,9 @@ void appendNoteAndInt(char* note, int i, handle* handle_) {
  * @return nothing
  */
 void appendNoteAndMessage(char* note, char* message, handle* handle_) {
-	appendToList(handle_,
-			strncombine(note, message, strlen(note), strlen(message) + 1));
+	char buffer[100];
+	generateNoteAndMessageString(buffer,note, message);
+	appendToList(handle_, buffer);
 }
 
 /**
@@ -304,7 +354,6 @@ void generateHeader(handle* handle_) {
  * @return nothing
  */
 void generateReport(handle *handle_) {
-	//char *akkumulator = _malloc(sizeof(char) * 50); //should be changed to a dynamic value based on length( report, etc.)
 
 	char* success = _malloc(10); //maybe rething and use log
 	char* fails = _malloc(10);
@@ -313,8 +362,6 @@ void generateReport(handle *handle_) {
 	itoaB(handle_->total, total, 10);
 	itoaB(handle_->total - handle_->fails, success, 10);
 	itoaB(handle_->fails, fails, 10);
-
-//	int writeAkku = 0;
 
 	char* blank = " ";
 	char *report = "Report:";
@@ -335,25 +382,6 @@ void generateReport(handle *handle_) {
 	handle_->pF(blank);
 	handle_->pF(total);
 	handle_->pF("\n");
-}
-
-/**
- * @brief returns an chararray containing the messages that have been reportet as failed
- * @param the handle where to extract
- * @return that list
- */
-char** getMessages(handle* handle_) {
-	reportNode* pi = handle_->root;
-
-	char** noteList = (char**) _malloc(sizeof(char*) * (handle_->messages));
-	int i = 0;
-	while (pi != 0) {
-		noteList[i] = pi->message;
-		pi = pi->next;
-		i++;
-	}
-
-	return noteList;
 }
 
 /**
@@ -476,20 +504,21 @@ _bool assert_IntNotInRange(int actual, int lowerBound, int higherBound,
 _bool assert_IntArrayEqual(int* actual, int* expected, int length,
 		char *message, handle* handle_) {
 	int i = 0;
-
+	int index = -1;
 	int statusAkku = 1;
 
 	for (; i < length && statusAkku; i++) {
 		statusAkku &= (actual[i] == expected[i]);
 	}
 
+	if (i != length) {
+		index = i;
+	}
+
 	char buffer[100];
-	//generateActualExpectedString(buffer, actual, expected, message);
 
-	char* converted = (char*) _malloc(12);
-	itoaB(i - 1, converted, 10);
-
-	//	strncombine(, converted, strlen(missmatch),	strlen(converted) + 1)
+	generateIntArrayEqualsString(buffer, actual, expected, length, index,
+			message);
 
 	return noteMe(statusAkku, buffer, handle_);
 
@@ -524,33 +553,6 @@ _bool noteMe(int _bool_, char * message, handle *handle_) {
 		handle_->pF(message);
 		handle_->pF("\n");
 	}
-	/*
-	 if (!_bool_) {
-	 handle_->fails++;
-	 appendToList(handle_, message);
-	 }
-	 */
 	return !_bool_;
-}
-
-/**
- * @brief Frees all the memory used for the handle, its list and the associated strings
- * @param handle_ the handle that will be deleted
- * @return None
- */
-void deleteHandle(handle* handle_) {
-	reportNode* pivot = handle_->root;
-	reportNode* help;
-
-	while (pivot != 0) {
-		_free(pivot->message);
-		help = pivot;
-		pivot = pivot->next;
-		_free(help);
-	}
-
-	_free(handle_->header);
-	_free(handle_->report);
-	_free(handle_);
 }
 #endif

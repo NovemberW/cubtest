@@ -5,18 +5,10 @@
 
 typedef void (*printFunc)(char* string);
 
-typedef struct reportNode_ {
-	struct reportNode_* next;
-	char* message;
-
-} reportNode;
-//reportNode
-
 typedef struct {
 	int total;
 	int fails;
 	int messages;
-	reportNode* root;
 	printFunc pF;
 	char* header;
 	char* report;
@@ -25,8 +17,6 @@ typedef struct {
 //handle;
 
 int itoaB(int value, char *sp, int radix);
-
-reportNode* getNewNode(char* message);
 
 handle* getEmptyHandle(printFunc pF);
 
@@ -37,6 +27,10 @@ char* strncombine(char* a, char* b, int lengt_a, int length_b);
 void generateActualExpectedString(char* buffer, int a, int b, char* message);
 
 void generateNoteAndIntString(char* buffer, char* message, int a);
+
+void generateNoteString(char* buffer, char* message);
+
+void generateNoteString(char* buffer, char* note);
 
 void generateIntRangeString(char* buffer, int actual, int lowerBound,
 		int upperBound, char* message);
@@ -89,6 +83,5 @@ _bool assert_FloatNotEqual(float actual, float expected, float delta,
 
 _bool noteMe(int _bool_, char *message, handle *handle_);
 
-void deleteHandle(handle* handle_);
 
 #endif
