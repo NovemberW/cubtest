@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../boarddefBridge.h"
+#include "boarddefBridge.h"
 #include "cubtest.h"
 
 /*
@@ -122,47 +122,125 @@ char* strncombine(char* a, char* b, int length_a, int length_b) {
 }
 
 /**
- * @brief appends a string representation of the two given integers to the string and return a new string
- * containing all three.
- * @param src
+ * @brief Generates a string comprised of given integers and message in the format
+ * Actual: a Expected: b message
+ * @param buffer - the result will be stored here
  * @param a the first integer
  * @param b the second integer
- * @param begin
- * @return that pointer
+ * @param message  the message to append to the end
  */
-char* generateActualExpectedString(char* src, int a, int b, int begin) {
+void generateActualExpectedString(char* buffer, int a, int b, char* message) {
 	char* actual = "Actual: ";
 	char* expected = "Expected: ";
-	char* akku = _malloc(
-			strlen(src) + strlen(actual) + strlen(expected) + 12 * 2);
 
-	char* buffer = _malloc(15);
+	char intBuffer[12];
 
-	strcpy(akku, src); // =^= strcopyto(F,A,0,sizeof(A));
+	int pos = 0;
 
-	int pos = strlen(src);
+	strcopyto(buffer, actual, 0, strlen(actual));
 
-	strcopyto(akku, " ", pos, strlen(" "));
-	pos += strlen(" ");
-	strcopyto(akku, actual, pos, strlen(actual));
 	pos += strlen(actual);
-	strcopyto(akku, " ", pos, strlen(" "));
+
+	strcopyto(buffer, " ", pos, strlen(" "));
 	pos += strlen(" ");
-	itoaB(b, buffer, 10);
-	strcopyto(akku, buffer, pos, strlen(buffer));
-	pos += strlen(buffer);
-	strcopyto(akku, " ", pos, strlen(" "));
+
+	itoaB(a, intBuffer, 10);
+	strcopyto(buffer, intBuffer, pos, strlen(intBuffer));
+	pos += strlen(intBuffer);
+
+	strcopyto(buffer, " ", pos, strlen(" "));
 	pos += strlen(" ");
-	strcopyto(akku, expected, pos, strlen(expected));
+
+	strcopyto(buffer, expected, pos, strlen(expected));
 	pos += strlen(expected);
-	strcopyto(akku, " ", pos, strlen(" "));
+
+	strcopyto(buffer, " ", pos, strlen(" "));
 	pos += strlen(" ");
-	itoaB(a, buffer, 10);
-	strcopyto(akku, buffer, pos, strlen(buffer));
-	akku[pos + strlen(buffer)] = 0;
-	return akku;
+
+	itoaB(b, intBuffer, 10);
+	strcopyto(buffer, intBuffer, pos, strlen(intBuffer));
+	pos += strlen(intBuffer);
+
+	strcopyto(buffer, " ", pos, strlen(" "));
+	pos += strlen(" ");
+
+	strcopyto(buffer, message, pos, strlen(message));
+	pos += strlen(message);
+
+	buffer[pos] = 0;
+
 }
 
+/**
+ * @brief Generates a string comprised of given integers and message in the format
+ * Actual: a Expected: b message
+ * @param buffer - the result will be stored here
+ * @param a the first integer
+ * @param b the second integer
+ * @param message  the message to append to the end
+ */
+void generateNoteAndIntString(char* buffer, char* message, int a) {
+	char intBuffer[12];
+
+	int pos = 0;
+
+	strcopyto(buffer, message, 0, strlen(message));
+
+	pos += strlen(message);
+
+	strcopyto(buffer, " ", pos, strlen(" "));
+	pos += strlen(" ");
+
+	itoaB(a, intBuffer, 10);
+	strcopyto(buffer, intBuffer, pos, strlen(intBuffer));
+	pos += strlen(intBuffer);
+
+	buffer[pos - 1] = 0;
+
+}
+
+void generateIntRangeString(char* buffer, int actual, int lowerBound,
+		int upperBound, char* message) {
+	char* start = "Range ";
+	char* actualS = "Actual:";
+
+	char intBuffer[12];
+
+	int pos = 0;
+
+	strcopyto(buffer, start, 0, strlen(start));
+
+	pos += strlen(start);
+
+	strcopyto(buffer, " [", pos, strlen(" ["));
+	pos += strlen(" [");
+
+	itoaB(lowerBound, intBuffer, 10);
+	strcopyto(buffer, intBuffer, pos, strlen(intBuffer));
+	pos += strlen(intBuffer);
+
+	strcopyto(buffer, ",", pos, strlen(","));
+	pos += strlen(",");
+
+	itoaB(upperBound, intBuffer, 10);
+	strcopyto(buffer, intBuffer, pos, strlen(intBuffer));
+	pos += strlen(intBuffer);
+
+	strcopyto(buffer, "]", pos, strlen("]"));
+	pos += strlen("]");
+
+	strcopyto(buffer, " ", pos, strlen(" "));
+	pos += strlen(" ");
+
+	strcopyto(buffer, actualS, pos, strlen(actualS));
+	pos += strlen(actualS);
+
+	itoaB(actual, intBuffer, 10);
+	strcopyto(buffer, intBuffer, pos, strlen(intBuffer));
+	pos += strlen(intBuffer);
+
+	buffer[pos] = 0;
+}
 /**
  * @brief Appends a note to the list of errormessages in given handle. The message is not counted as failed
  * of correct as it is not a test.
@@ -184,11 +262,9 @@ void appendNote(char* note, handle* handle_) {
  * @return nothing
  */
 void appendNoteAndInt(char* note, int i, handle* handle_) {
-	char* converted = (char*) _malloc(13);
-	itoaB(i, converted, 10);
-	converted[12] = 0;
-	appendToList(handle_,
-			strncombine(note, converted, strlen(note), strlen(converted) + 1));
+	char buffer[50];
+	generateNoteAndIntString(buffer, note, i);
+	appendToList(handle_, buffer);
 }
 
 /**
@@ -228,7 +304,7 @@ void generateHeader(handle* handle_) {
  * @return nothing
  */
 void generateReport(handle *handle_) {
-	char *akkumulator = _malloc(sizeof(char) * 50); //should be changed to a dynamic value based on length( report, etc.)
+	//char *akkumulator = _malloc(sizeof(char) * 50); //should be changed to a dynamic value based on length( report, etc.)
 
 	char* success = _malloc(10); //maybe rething and use log
 	char* fails = _malloc(10);
@@ -238,7 +314,7 @@ void generateReport(handle *handle_) {
 	itoaB(handle_->total - handle_->fails, success, 10);
 	itoaB(handle_->fails, fails, 10);
 
-	int writeAkku = 0;
+//	int writeAkku = 0;
 
 	char* blank = " ";
 	char *report = "Report:";
@@ -287,9 +363,10 @@ char** getMessages(handle* handle_) {
  * @return None
  */
 _bool assert_IntEqual(int actual, int expected, char *message, handle *handle_) {
-
-	return noteMe(actual == expected,
-			generateActualExpectedString(message, actual, expected, strlen(message)), handle_);
+//generateActualExpectedString(message, actual, expected, strlen(message))
+	char buffer[100];
+	generateActualExpectedString(buffer, actual, expected, message);
+	return noteMe(actual == expected, buffer, handle_);
 }
 /**
  * @brief asserts that given integer actual is not equal to given integer expected, if that is not the case the given message is logged to given handle
@@ -299,8 +376,9 @@ _bool assert_IntEqual(int actual, int expected, char *message, handle *handle_) 
  */
 _bool assert_IntNotEqual(int actual, int expected, char *message,
 		handle* handle_) {
-	return noteMe(actual != expected,
-			generateActualExpectedString(message, actual, expected, strlen(message)), handle_);
+	char buffer[100];
+	generateActualExpectedString(buffer, actual, expected, message);
+	return noteMe(actual != expected, buffer, handle_);
 }
 
 /**
@@ -311,8 +389,9 @@ _bool assert_IntNotEqual(int actual, int expected, char *message,
  */
 _bool assert_IntGreater(int actual, int expected, char *message,
 		handle* handle_) {
-	return noteMe(actual > expected,
-			generateActualExpectedString(message, actual, expected, strlen(message)), handle_);
+	char buffer[100];
+	generateActualExpectedString(buffer, actual, expected, message);
+	return noteMe(actual > expected, buffer, handle_);
 }
 
 /**
@@ -323,8 +402,9 @@ _bool assert_IntGreater(int actual, int expected, char *message,
  */
 _bool assert_IntGreaterOrEqual(int actual, int expected, char *message,
 		handle* handle_) {
-	return noteMe(actual >= expected,
-			generateActualExpectedString(message, actual, expected, strlen(message)), handle_);
+	char buffer[100];
+	generateActualExpectedString(buffer, actual, expected, message);
+	return noteMe(actual >= expected, buffer, handle_);
 }
 
 /**
@@ -335,8 +415,9 @@ _bool assert_IntGreaterOrEqual(int actual, int expected, char *message,
  */
 _bool assert_IntSmaller(int actual, int expected, char *message,
 		handle* handle_) {
-	return noteMe(actual < expected,
-			generateActualExpectedString(message, actual, expected, strlen(message)), handle_);
+	char buffer[100];
+	generateActualExpectedString(buffer, actual, expected, message);
+	return noteMe(actual < expected, buffer, handle_);
 }
 
 /**
@@ -347,8 +428,9 @@ _bool assert_IntSmaller(int actual, int expected, char *message,
  */
 _bool assert_IntSmallerOrEqual(int actual, int expected, char *message,
 		handle* handle_) {
-	return noteMe(actual <= expected,
-			generateActualExpectedString(message, actual, expected, strlen(message)), handle_);
+	char buffer[100];
+	generateActualExpectedString(buffer, actual, expected, message);
+	return noteMe(actual <= expected, buffer, handle_);
 }
 
 /**
@@ -360,8 +442,11 @@ _bool assert_IntSmallerOrEqual(int actual, int expected, char *message,
  */
 _bool assert_IntInRange(int actual, int lowerBound, int higherBound,
 		char *message, handle* handle_) {
-	return noteMe(lowerBound <= actual && actual <= higherBound,
-			generateActualExpectedString(message, -1, actual, strlen(message)), handle_);
+	char buffer[100];
+
+	generateIntRangeString(buffer, actual, lowerBound, higherBound, message);
+	return noteMe(lowerBound <= actual && actual <= higherBound, buffer,
+			handle_);
 }
 
 /**
@@ -373,8 +458,10 @@ _bool assert_IntInRange(int actual, int lowerBound, int higherBound,
  */
 _bool assert_IntNotInRange(int actual, int lowerBound, int higherBound,
 		char *message, handle* handle_) {
-	return noteMe(lowerBound > actual || actual > higherBound,
-			generateActualExpectedString(message, -1, actual, strlen(message)), handle_);
+	char buffer[100];
+
+	generateIntRangeString(buffer, actual, lowerBound, higherBound, message);
+	return noteMe(lowerBound > actual || actual > higherBound, buffer, handle_);
 }
 
 /**
@@ -396,15 +483,15 @@ _bool assert_IntArrayEqual(int* actual, int* expected, int length,
 		statusAkku &= (actual[i] == expected[i]);
 	}
 
-	char* missmatch = generateActualExpectedString(message, actual[i - 1], expected[i - 1],
-			strlen(message));
+	char buffer[100];
+	//generateActualExpectedString(buffer, actual, expected, message);
 
 	char* converted = (char*) _malloc(12);
 	itoaB(i - 1, converted, 10);
 
-	return noteMe(statusAkku,
-			strncombine(missmatch, converted, strlen(missmatch),
-					strlen(converted) + 1), handle_);
+	//	strncombine(, converted, strlen(missmatch),	strlen(converted) + 1)
+
+	return noteMe(statusAkku, buffer, handle_);
 
 }
 
@@ -432,7 +519,7 @@ _bool assert_FloatNotEqual(float actual, float expected, float delta,
  */
 _bool noteMe(int _bool_, char * message, handle *handle_) {
 	handle_->total++;
-	if (!_bool_){
+	if (!_bool_) {
 		handle_->fails++;
 		handle_->pF(message);
 		handle_->pF("\n");

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "../cubtest.c"
+#include "../framework/cubtest.c"
 
 int main(void) {
 
