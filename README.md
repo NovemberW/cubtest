@@ -26,4 +26,4 @@ And most importend of all
 - Be easy to adapt to your project
 
 
-Within example you can find a simple demonstratro that can be run on a desktop pc.
+Within example you can find a simple demonstrator that can be run on a desktop pc.
