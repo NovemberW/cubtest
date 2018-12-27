@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "../framework/cubtest.c"
+#include "../framework/cubtest.h"
 
 void f(char* string){
 	printf("%s", string);
