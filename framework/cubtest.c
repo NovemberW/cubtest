@@ -366,24 +366,28 @@ void generateReport(handle *handle_) {
 	itoaB(handle_->fails, fails, 10);
 
 	char* blank = " ";
+	char* newLine = "\n";
 	char *report = "Report:";
 	char* successMessage = "Bestanden:";
 	char* failMessage = "Fehlgeschlagen:";
 	char* totalMessage = "Total:";
 	handle_->pF(report);
 	handle_->pF(blank);
+	handle_->pF(newLine);
 	handle_->pF(successMessage);
 	handle_->pF(blank);
 	handle_->pF(success);
 	handle_->pF(blank);
+	handle_->pF(newLine);
 	handle_->pF(failMessage);
 	handle_->pF(blank);
 	handle_->pF(fails);
 	handle_->pF(blank);
+	handle_->pF(newLine);
 	handle_->pF(totalMessage);
 	handle_->pF(blank);
 	handle_->pF(total);
-	handle_->pF("\n");
+	handle_->pF(newLine);
 }
 
 /**
