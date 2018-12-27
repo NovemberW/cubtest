@@ -12,6 +12,6 @@
 
 //#define onBoard 1 //uncommend if used on board
 
-#include "../boarddefs/boarddef.h"
+#include "./boarddefs/boarddef.h"
 
 #endif /* MYDEF_H_ */
