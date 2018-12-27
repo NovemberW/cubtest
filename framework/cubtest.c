@@ -122,6 +122,8 @@ void generateActualExpectedString(char* buffer, int a, int b, char* message) {
 
 	char intBuffer[12];
 
+	int h = 0;
+
 	int pos = 0;
 
 	strcopyto(buffer, actual, 0, strlen(actual));
@@ -131,9 +133,9 @@ void generateActualExpectedString(char* buffer, int a, int b, char* message) {
 	strcopyto(buffer, " ", pos, strlen(" "));
 	pos += strlen(" ");
 
-	itoaB(a, intBuffer, 10);
-	strcopyto(buffer, intBuffer, pos, strlen(intBuffer));
-	pos += strlen(intBuffer);
+	h = itoaB(a, intBuffer, 10);
+	strcopyto(buffer, intBuffer, pos,h);
+	pos += h;
 
 	strcopyto(buffer, " ", pos, strlen(" "));
 	pos += strlen(" ");
@@ -144,9 +146,9 @@ void generateActualExpectedString(char* buffer, int a, int b, char* message) {
 	strcopyto(buffer, " ", pos, strlen(" "));
 	pos += strlen(" ");
 
-	itoaB(b, intBuffer, 10);
-	strcopyto(buffer, intBuffer, pos, strlen(intBuffer));
-	pos += strlen(intBuffer);
+	h = itoaB(b, intBuffer, 10);
+	strcopyto(buffer, intBuffer, pos, h);
+	pos += h;
 
 	strcopyto(buffer, " ", pos, strlen(" "));
 	pos += strlen(" ");
@@ -296,7 +298,7 @@ void generateIntArrayEqualsString(char* buffer, int* a, int* b, int length,
  * @return nothing
  */
 void appendNote(char* note, handle* handle_) {
-	char buffer[100];
+	char buffer[strlen(note) + 1];
 	generateNoteString(buffer, note);
 	appendToList(handle_, buffer);
 }
@@ -311,7 +313,7 @@ void appendNote(char* note, handle* handle_) {
  * @return nothing
  */
 void appendNoteAndInt(char* note, int i, handle* handle_) {
-	char buffer[50];
+	char buffer[strlen(note) + 15 + 1];
 	generateNoteAndIntString(buffer, note, i);
 	appendToList(handle_, buffer);
 }
@@ -326,7 +328,7 @@ void appendNoteAndInt(char* note, int i, handle* handle_) {
  * @return nothing
  */
 void appendNoteAndMessage(char* note, char* message, handle* handle_) {
-	char buffer[100];
+	char buffer[strlen(note) + strlen(message) + 1];
 	generateNoteAndMessageString(buffer,note, message);
 	appendToList(handle_, buffer);
 }
