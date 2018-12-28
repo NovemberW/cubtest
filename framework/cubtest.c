@@ -134,7 +134,7 @@ void generateActualExpectedString(char* buffer, int a, int b, char* message) {
 	pos += strlen(" ");
 
 	h = itoaB(a, intBuffer, 10);
-	strcopyto(buffer, intBuffer, pos,h);
+	strcopyto(buffer, intBuffer, pos, h);
 	pos += h;
 
 	strcopyto(buffer, " ", pos, strlen(" "));
@@ -194,7 +194,7 @@ void generateNoteString(char* buffer, char* message) {
 
 }
 
-void generateNoteAndMessageString(char* buffer,char* note, char* message) {
+void generateNoteAndMessageString(char* buffer, char* note, char* message) {
 	strcopyto(buffer, note, 0, strlen(note));
 	strcopyto(buffer, ": ", strlen(note), strlen(": "));
 	strcopyto(buffer, message, strlen(note) + 2, strlen(message));
@@ -329,7 +329,7 @@ void appendNoteAndInt(char* note, int i, handle* handle_) {
  */
 void appendNoteAndMessage(char* note, char* message, handle* handle_) {
 	char buffer[strlen(note) + strlen(message) + 1];
-	generateNoteAndMessageString(buffer,note, message);
+	generateNoteAndMessageString(buffer, note, message);
 	appendToList(handle_, buffer);
 }
 
@@ -357,13 +357,7 @@ void generateHeader(handle* handle_) {
  */
 void generateReport(handle *handle_) {
 
-	char* success = _malloc(10); //maybe rething and use log
-	char* fails = _malloc(10);
-	char* total = _malloc(10);
-
-	itoaB(handle_->total, total, 10);
-	itoaB(handle_->total - handle_->fails, success, 10);
-	itoaB(handle_->fails, fails, 10);
+	char buffer[15];
 
 	char* blank = " ";
 	char* newLine = "\n";
@@ -376,17 +370,18 @@ void generateReport(handle *handle_) {
 	handle_->pF(newLine);
 	handle_->pF(successMessage);
 	handle_->pF(blank);
-	handle_->pF(success);
-	handle_->pF(blank);
+	itoaB(handle_->total - handle_->fails, buffer, 10);
+	handle_->pF(buffer);
 	handle_->pF(newLine);
 	handle_->pF(failMessage);
 	handle_->pF(blank);
-	handle_->pF(fails);
-	handle_->pF(blank);
+	itoaB(handle_->fails, buffer, 10);
+	handle_->pF(buffer);
 	handle_->pF(newLine);
 	handle_->pF(totalMessage);
 	handle_->pF(blank);
-	handle_->pF(total);
+	itoaB(handle_->total, buffer, 10);
+	handle_->pF(buffer);
 	handle_->pF(newLine);
 }
 
