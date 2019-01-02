@@ -359,6 +359,7 @@ void generateReport(handle *handle_) {
 
 	char buffer[15];
 
+
 	char* blank = " ";
 	char* newLine = "\n";
 	char *report = "Report:";
@@ -370,17 +371,20 @@ void generateReport(handle *handle_) {
 	handle_->pF(newLine);
 	handle_->pF(successMessage);
 	handle_->pF(blank);
-	itoaB(handle_->total - handle_->fails, buffer, 10);
+	int h = itoaB(handle_->total - handle_->fails, buffer, 10);
+	buffer[h] = 0;
 	handle_->pF(buffer);
 	handle_->pF(newLine);
 	handle_->pF(failMessage);
 	handle_->pF(blank);
-	itoaB(handle_->fails, buffer, 10);
+	h = itoaB(handle_->fails, buffer, 10);
+	buffer[h] = 0;
 	handle_->pF(buffer);
 	handle_->pF(newLine);
 	handle_->pF(totalMessage);
 	handle_->pF(blank);
-	itoaB(handle_->total, buffer, 10);
+	h = itoaB(handle_->total, buffer, 10);
+	buffer[h] = 0;
 	handle_->pF(buffer);
 	handle_->pF(newLine);
 }
