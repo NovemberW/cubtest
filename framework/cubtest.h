@@ -10,8 +10,6 @@ typedef struct {
 	int fails;
 	int messages;
 	printFunc pF;
-	char* header;
-	char* report;
 
 } handle;
 //handle;
