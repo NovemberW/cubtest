@@ -24,17 +24,6 @@ char* strcopyto(char* dest, char* src, int begin, int length);
 
 char* strncombine(char* a, char* b, int lengt_a, int length_b);
 
-void generateActualExpectedString(char* buffer, int a, int b, char* message);
-
-void generateNoteAndIntString(char* buffer, char* message, int a, format format_);
-
-void generateNoteString(char* buffer, char* message);
-
-void generateNoteString(char* buffer, char* note);
-
-void generateIntRangeString(char* buffer, int actual, int lowerBound,
-		int upperBound, char* message);
-
 void generateHeader(handle* handle_);
 
 void generateReport(handle* handle_);
