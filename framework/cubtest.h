@@ -5,6 +5,8 @@
 
 typedef void (*printFunc)(char* string);
 
+typedef enum format {BIN = 2, OCT = 8, DEC = 10, HEX = 16} format;
+
 typedef struct {
 	int total;
 	int fails;
@@ -24,7 +26,7 @@ char* strncombine(char* a, char* b, int lengt_a, int length_b);
 
 void generateActualExpectedString(char* buffer, int a, int b, char* message);
 
-void generateNoteAndIntString(char* buffer, char* message, int a);
+void generateNoteAndIntString(char* buffer, char* message, int a, format format_);
 
 void generateNoteString(char* buffer, char* message);
 
@@ -41,7 +43,7 @@ char** getMessages(handle* handle_);
 
 void appendNote(char* note, handle* handle_);
 
-void appendNoteAndInt(char* note, int i, handle* handle_);
+void appendNoteAndInt(char* note, int i, format format_, handle* handle_);
 
 void appendNoteAndMessage(char* note, char* message, handle* handle_);
 

@@ -39,7 +39,10 @@ int main(void) {
 	appendNote("Einfache Meldung anzeigen.", handle_);
 	appendNote("Ggf. um Programmverlauf zu folgen.", handle_);
 	appendNoteAndMessage("Ausgabe eines Strings zusätzlich zur Notiz","Ich bin der Inhalt.", handle_);
-	appendNoteAndInt("Ausgabe eines Ints",42, handle_);
+	appendNoteAndInt("Ausgabe eines Ints in binär",142,BIN, handle_);
+	appendNoteAndInt("Ausgabe eines Ints in oktal",142,OCT, handle_);
+	appendNoteAndInt("Ausgabe eines Ints in dezimal",142,DEC, handle_);
+	appendNoteAndInt("Ausgabe eines Ints in hexadezimal",142,HEX, handle_);
 
 //show results
 

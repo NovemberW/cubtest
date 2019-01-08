@@ -168,7 +168,7 @@ void generateActualExpectedString(char* buffer, int a, int b, char* message) {
  * @param b the second integer
  * @param message  the message to append to the end
  */
-void generateNoteAndIntString(char* buffer, char* message, int a) {
+void generateNoteAndIntString(char* buffer, char* message, int a, format format_) {
 	char intBuffer[12];
 
 	int pos = 0;
@@ -180,11 +180,11 @@ void generateNoteAndIntString(char* buffer, char* message, int a) {
 	strcopyto(buffer, ": ", pos, strlen(": "));
 	pos += strlen(": ");
 
-	int help = itoaB(a, intBuffer, 10);
-	strcopyto(buffer, intBuffer, pos, help);
+	int help = itoaB(a, intBuffer, format_);
+	strcopyto(buffer, intBuffer, pos, help );
 	pos += help;
 
-	buffer[pos - 1] = 0;
+	buffer[pos] = 0;
 
 }
 
@@ -312,9 +312,9 @@ void appendNote(char* note, handle* handle_) {
  * @param i the int to be added
  * @return nothing
  */
-void appendNoteAndInt(char* note, int i, handle* handle_) {
+void appendNoteAndInt(char* note, int i, format format_, handle* handle_) {
 	char buffer[strlen(note) + 15 + 1];
-	generateNoteAndIntString(buffer, note, i);
+	generateNoteAndIntString(buffer, note, i, format_);
 	appendToList(handle_, buffer);
 }
 
