@@ -11,7 +11,7 @@ Combined with our strict open source (& knowledge) philosophy it was decided to 
 the framework into a separate project and as such make it available for others under GPL v3.
 
 Cubtest is ment to provide a simple and usable approach to the problem of testing in c
-especially on embedded plattforms as CubeSats and alike.
+especially on embedded plattforms such as CubeSats and alike.
 
 Q: Sure, but what can it do ?
 
