@@ -2,7 +2,7 @@
 A portable open source testframework for c
 
 Cubtest ist derived from the urgent need for a C-Testframework for
-the Cubesat currently under development by the TU Darmstadt Spacetechnology e. v..
+the Cubesat currently under development by the TU Darmstadt Spacetechnology e. v. (http://tudsat.space/).
 
 After testing available open source solutions the restrictions based on the (unique)
 enviornment made it clear that a new one was needed.
