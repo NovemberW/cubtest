@@ -31,6 +31,9 @@ int main(void) {
 	int a[] = { 1, 2, 3 };
 	int b[] = { 2, 3, 4 };
 
+	assert_IntArrayEqual(a,a,3,"Array should be equal ...", handle_);
+	assert_IntArrayEqual(a,b,3,"Arrays should not be equal ...", handle_);
+
 	assert_IntInRange(2,1,5,"Nicht im Bereich1.",handle_);
 	assert_IntInRange(2,5,6,"Nicht im Bereich2.",handle_);
 
