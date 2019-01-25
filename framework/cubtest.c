@@ -248,7 +248,6 @@ void generateIntRangeString(char* buffer, int actual, int lowerBound,
 void generateIntArrayEqualsString(char* buffer, int* a, int* b, int length,
 		int index, char* message) {
 	char* notEqual = "Arrays not equal at: ";
-	char* values = "Values: ";
 
 	char intBuffer[12];
 
@@ -265,8 +264,8 @@ void generateIntArrayEqualsString(char* buffer, int* a, int* b, int length,
 		strcopyto(buffer, intBuffer, pos, help);
 		pos += help;
 
-		strcopyto(buffer, "=> ", pos, strlen("=> "));
-		pos += strlen("=> ");
+		strcopyto(buffer, " => ", pos, strlen(" => "));
+		pos += strlen(" => ");
 
 		help = itoaB(a[index], intBuffer, 10);
 		strcopyto(buffer, intBuffer, pos, help);
