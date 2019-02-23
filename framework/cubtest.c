@@ -187,20 +187,35 @@ void generateNoteAndIntString(char* buffer, char* message, int a, format format_
 	buffer[pos] = 0;
 
 }
-
+/**
+ * @brief Generates the string needed for a simple note. It will contain the given message.
+ * @param buffer - the result will be stored here
+ * @param message  the message to append to write into the buffer
+ */
 void generateNoteString(char* buffer, char* message) {
 	strcopyto(buffer, message, 0, strlen(message));
 	buffer[strlen(message)] = 0;
 
 }
-
+/**
+ * @brief Generates the string needed for a simple two part note. It will contain the given message and the note.
+ * @param buffer - the result will be stored here
+ * @param note  the note to append to write into the buffer
+ * @param message  the message to append to write into the buffer
+ */
 void generateNoteAndMessageString(char* buffer, char* note, char* message) {
 	strcopyto(buffer, note, 0, strlen(note));
 	strcopyto(buffer, ": ", strlen(note), strlen(": "));
 	strcopyto(buffer, message, strlen(note) + 2, strlen(message));
 	buffer[strlen(note) + strlen(message) + 2] = 0;
 }
-
+/**
+ * @brief Generates the string needed for range asserts. It contains the bounds and the actual value.
+ * @param buffer - the resulting string will be stored here
+ * @param actual - the actual value
+ * @param lowerBound - the lowerBound
+ * @param upperBound - the upperBound
+ *  */
 void generateIntRangeString(char* buffer, int actual, int lowerBound,
 		int upperBound, char* message) {
 	char* start = "Range ";
@@ -244,7 +259,14 @@ void generateIntRangeString(char* buffer, int actual, int lowerBound,
 
 	buffer[pos] = 0;
 }
-
+/**
+ * @brief Generates the string needed for array asserts. It contains the index at witch the array differed and the values at those positions.
+ * @param buffer - the resulting string will be stored here
+ * @param actual - the actual value
+ * @param a - the first array
+ * @param b - the second array
+ * @param length - the length of the array (the shorter one)
+ *  */
 void generateIntArrayEqualsString(char* buffer, int* a, int* b, int length,
 		int index, char* message) {
 	char* notEqual = "Arrays not equal at: ";
