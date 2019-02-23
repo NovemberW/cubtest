@@ -20,6 +20,8 @@ int itoaB(int value, char *sp, int radix);
 
 handle* getEmptyHandle(printFunc pF);
 
+void initHandle(handle* handle_, printFunc pF);
+
 char* strcopyto(char* dest, char* src, int begin, int length);
 
 char* strncombine(char* a, char* b, int lengt_a, int length_b);

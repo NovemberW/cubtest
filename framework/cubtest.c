@@ -67,8 +67,8 @@ void appendToList(handle* handle_, char* message) {
 }
 
 /**
- * @brief pointer to new handle (allocated) with values set to 0
- * @param none
+ * @brief pointer to new handle (allocated) with values set to 0 and pF set to given function
+ * @param the printFunction
  * @return that pointer
  */
 handle* getEmptyHandle(printFunc pF) {
@@ -80,6 +80,17 @@ handle* getEmptyHandle(printFunc pF) {
 	return handle_;
 }
 
+/**
+ * @brief inits given handle with values set to 0
+ * @param the printFunction and the handle to be used
+ * @return that pointer
+ */
+void initHandle(handle* handle_, printFunc pF) {
+	handle_->fails = 0;
+	handle_->total = 0;
+	handle_->messages = 0;
+	handle_->pF = pF;
+}
 /**
  * @brief an extended string copy funktion to complement strcpy (from string.h).
  * @param dest, the actual to append to. src, the part that will be appended. begin the index at wich src will be appended to
@@ -333,13 +344,13 @@ void appendNoteAndMessage(char* note, char* message, handle* handle_) {
 }
 
 /**
- * @brief Creates a simple header for the testreport. That header includes date and time ob the test.
+ * @brief Creates a simple header for the testreport. That header includes date and time of the test.
  * The header is added to the given handle.
  * @param handle_ the handle where it should be added
  * @return nothing
  */
 void generateHeader(handle* handle_) {
-	char *startText = "Testlauf:";
+	char *startText = "Testrun:";
 
 	handle_->pF(startText);
 	handle_->pF(" ");
@@ -362,8 +373,8 @@ void generateReport(handle *handle_) {
 	char* blank = " ";
 	char* newLine = "\n";
 	char *report = "Report:";
-	char* successMessage = "Bestanden:";
-	char* failMessage = "Fehlgeschlagen:";
+	char* successMessage = "Passed:";
+	char* failMessage = "Failed:";
 	char* totalMessage = "Total:";
 	handle_->pF(report);
 	handle_->pF(blank);

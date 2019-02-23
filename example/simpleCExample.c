@@ -10,7 +10,11 @@ int main(void) {
 
 //handle to collect the results
 
-	handle* handle_ = getEmptyHandle(&f);
+	handle base;
+
+	handle* handle_ = &base;
+
+	initHandle(handle_,&f);
 
 	generateHeader(handle_);
 
