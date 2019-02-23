@@ -265,7 +265,7 @@ void generateIntRangeString(char* buffer, int actual, int lowerBound,
  * @param actual - the actual value
  * @param a - the first array
  * @param b - the second array
- * @param length - the length of the array (the shorter one)
+ * @param length - the length on witch the arrays are compared
  *  */
 void generateIntArrayEqualsString(char* buffer, int* a, int* b, int length,
 		int index, char* message) {
