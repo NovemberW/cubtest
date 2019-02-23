@@ -108,17 +108,6 @@ char* strcopyto(char* dest, char* src, int begin, int length) {
 	return dest;
 }
 
-char* strncombine(char* a, char* b, int length_a, int length_b) {
-	size_t message_len = length_a + length_b + 2 + 1 + 10; /*+ 2 for ": ", + 1 for terminating NULL */
-	char *message = (char*) malloc(message_len);
-
-	strcopyto(message, a, 0, length_a);
-	strcopyto(message, ": ", length_a, 2);
-	strcopyto(message, b, length_a + 2, length_b);
-	message[length_a + length_b + 1] = 0;
-	return message;
-}
-
 /**
  * @brief Generates a string comprised of given integers and message in the format
  * Actual: a Expected: b message
