@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../boarddefBridge.h"
 #include "cubtest.h"
 
 /*
@@ -64,20 +63,6 @@ void appendToList(handle* handle_, char* message) {
 	handle_->messages++;
 	handle_->pF(message);
 	handle_->pF("\n");
-}
-
-/**
- * @brief pointer to new handle (allocated) with values set to 0 and pF set to given function
- * @param the printFunction
- * @return that pointer
- */
-handle* getEmptyHandle(printFunc pF) {
-	handle *handle_ = (handle*) _malloc(sizeof(handle));
-	handle_->fails = 0;
-	handle_->total = 0;
-	handle_->messages = 0;
-	handle_->pF = pF;
-	return handle_;
 }
 
 /**

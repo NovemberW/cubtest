@@ -18,8 +18,6 @@ typedef struct {
 
 int itoaB(int value, char *sp, int radix);
 
-handle* getEmptyHandle(printFunc pF);
-
 void initHandle(handle* handle_, printFunc pF);
 
 char* strcopyto(char* dest, char* src, int begin, int length);
