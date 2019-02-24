@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "cubtest.h"
 
 /*
@@ -555,15 +556,19 @@ _bool assert_FloatNotEqual(float actual, float expected, float delta,
  * @brief Used for internal operations. Main purpose is to log result actuald on results of evaluation (_bool_) to given handle
  * @param _bool_ the result of the evaluation (comparison), message the message that will be logged if _bool_ if false
  * handle_ the handle to which results will be logged to
- * @return None
+ * @return true if noted, else false
  */
 _bool noteMe(int _bool_, char * message, handle *handle_) {
 	handle_->total++;
-	if (!_bool_) {
+	bool stdBool = false;
+	if(_bool_)
+		stdBool = true;
+
+	if (!stdBool) {
 		handle_->fails++;
 		handle_->pF(message);
 		handle_->pF("\n");
 	}
-	return !_bool_;
+	return !stdBool;
 }
 #endif

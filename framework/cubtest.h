@@ -1,7 +1,9 @@
 #ifndef CUBTEST_H
 #define CUBTEST_H
 
-#define _bool int
+#include <stdbool.h>
+
+#define _bool bool
 
 typedef void (*printFunc)(char* string);
 
