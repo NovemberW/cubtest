@@ -25,4 +25,4 @@ And most importend of all
 - Be easy to adapt to your project
 
 
-Within example you can find a simple demonstrator that can be run on a desktop pc.
+Within the example/ directory you can find a simple demonstrator that can be run on a desktop pc.
