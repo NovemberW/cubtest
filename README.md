@@ -7,14 +7,14 @@ the Cubesat currently under development by the TU Darmstadt Spacetechnology e. v
 After evaluating available open source solutions we found it to be more easy to write a new one that is tailored to our needs.
 
 Combined with our strict open source (& knowledge) philosophy it was decided to outsource 
-the framework into a separate project and as such make it available for others under GPL v3.
+the framework into a separate project and as such make it available under GPL v3.
 
-Cubtest is ment to provide a very simple and usable approach to the problem of testing in c,
+Cubtest is ment to provide a very simple and usable approach to the problem of testing in C,
 especially on embedded plattforms such as CubeSats.
 
 Q: Sure, but what can it do ?
 
-It can:
+A: It can:
 
 - Provide a wide variaty of assert Funktions
 - Provide basic scheme for reports of testruns
