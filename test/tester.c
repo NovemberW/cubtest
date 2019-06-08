@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <stdbool.h>
 
 #include "../framework/cubtest.h"
 
@@ -23,6 +24,17 @@ void logPrint(char* content){
 	strcpy(helper,content);
 	logger[head] = helper;
 	head++;
+}
+
+bool contains(char* searchString){
+	int i;
+	
+	for(i = 0;i < head;i++)
+		if(strstr(logger[i],searchString) != NULL){	
+			return true;
+		}
+
+	return false;
 }
 
 int main(){
@@ -48,7 +60,6 @@ int main(){
 	//for(delta = 0;base + delta < 2000;base += 10){}		
 		
 	assert_IntEqual(e , e  + 1, "Err IntEqual", handle_);
-	
 
 	assert_IntNotEqual(0, 1, "Corr. IntNotEqual", handle_);
 	assert_IntNotEqual(4, 4, "Err IntNotEqual", handle_);
@@ -74,6 +85,28 @@ int main(){
 	assert(handle_->total = 11);
 	assert(handle_->fails = 4);
 	assert(handle_->messages == 0);
+
+	
+	appendNote("Dummy note", handle_);
+	appendNoteAndInt("Dummy int note b",42, BIN, handle_);
+	appendNoteAndInt("Dummy int note o",42, OCT, handle_);
+	appendNoteAndInt("Dummy int note d",42, DEC, handle_);
+	appendNoteAndInt("Dummy int note h",42, HEX, handle_);
+	appendNoteAndMessage("Dummy message note","Second one" , handle_);
+
+	assert(contains("Dummy note"));
+	assert(contains("Dummy int note b"));
+	assert(contains("Dummy int note o"));
+	assert(contains("Dummy int note d"));
+	assert(contains("Dummy int note h"));
+	assert(contains("Dummy note"));
+	assert(contains("Second one"));
+
+
+
+	assert(handle_->total = 11);
+	assert(handle_->fails = 4);
+	assert(handle_->messages == 6);
 
 	int i = 0;
 	for(;i < head;i++)
