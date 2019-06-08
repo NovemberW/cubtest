@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "../framework/cubtest.h"
 
@@ -32,6 +33,11 @@ int main(){
 
 	initHandle(handle_,&logPrint);
 
+	assert(handle_->total == 0);
+	assert(handle_->fails == 0);
+	assert(handle_->messages == 0);
+	assert(handle_->pF == &logPrint);
+
 	generateHeader(handle_);
 
 
@@ -55,6 +61,19 @@ int main(){
 	assert_IntSmallerOrEqual(0, 0, "Corr. IntSmallerOrEqual", handle_);
     assert_IntSmallerOrEqual(4, 5, "Err IntSmallerorEqual", handle_);
 
+
+    assert_IntGreater(2, 1, "Corr. IntGreater", handle_);
+    assert_IntGreater(4, 4, "Err IntGreater", handle_);
+
+
+	assert_IntGreaterOrEqual(0, 0, "Corr. IntGreaterOrEqual", handle_);
+    assert_IntGreaterOrEqual(5, 4, "Err IntGreaterorEqual", handle_);
+
+    generateReport(handle_);
+
+	assert(handle_->total = 11);
+	assert(handle_->fails = 4);
+	assert(handle_->messages == 0);
 
 	int i = 0;
 	for(;i < head;i++)
