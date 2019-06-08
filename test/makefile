@@ -6,7 +6,7 @@ core: tester.o cubtest.o
 run: core
 	./tester
 
-all: core cleanup run
+all: core run cleanup 
 
 tester.o: tester.c
 	gcc -c $?
@@ -17,3 +17,4 @@ cubtest.o: ../framework/cubtest.c
 cleanup: 
 	rm cubtest.o
 	rm tester.o
+	rm tester
