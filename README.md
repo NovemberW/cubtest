@@ -1,26 +1,26 @@
 # cubtest
-A portable open source testframework for C
+A portable, open source test framework for C
 
-Cubtest ist derived from the urgent need for a C-Testframework for
-the Cubesat currently under development by the TU Darmstadt Spacetechnology e. v. (http://tudsat.space/).
+Cubtest ist derived from the urgent need for a C-Test framework for
+the Cubesat currently under development by the TU Darmstadt Space Technology e. v. (http://tudsat.space/).
 
-After evaluating available open source solutions we found it to be more easy to write a new one that is tailored to our needs.
+After evaluating available open source solutions we found it to be easier to write a new one that is tailored to our needs.
 
-Combined with our strict open source (& knowledge) philosophy it was decided to outsource 
+Combined with our strict open source (& knowledge) philosophy, it was decided to outsource 
 the framework into a separate project and as such make it available under GPL v3.
 
-Cubtest is ment to provide a very simple and usable approach to the problem of testing in C,
-especially on embedded plattforms such as CubeSats.
+Cubtest is meant to provide a very simple and usable approach to the problem of testing in C,
+especially on embedded platforms such as CubeSats.
 
 Q: Sure, but what can it do ?
 
 A: It can:
 
-- Provide a wide variaty of assert Funktions
-- Provide basic scheme for reports of testruns
+- Provide a wide variety of asserting Functions
+- Provide the basic scheme for reports of test runs
 - Make it easier to use problem specific automation solutions
 
-And most importend of all 
+And most important of all 
 
 - Be easy to adapt to your project
 
